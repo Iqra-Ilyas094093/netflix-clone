@@ -8,4 +8,6 @@ class AppUrls{
  static String upcomingMoviesEndpoint = '/movie/upcoming';
  static String  nowPlayingEndpoint = '/movie/now_playing';
  static String tvSeriesEndpoint = '/tv/top_rated';
+ static String searchQueryEndpoint = '/search/movie';
+ static String popularMoviesEndpoint = '/movie/popular';
 }

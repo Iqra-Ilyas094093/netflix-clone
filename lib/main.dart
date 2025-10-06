@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
           bodyMedium: TextStyle().copyWith(fontSize: 20,color: Colors.white),
         ),
         fontFamily: GoogleFonts.ptSans().fontFamily,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
       ),
       home: SplashScreen(),
     );
