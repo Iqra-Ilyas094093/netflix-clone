@@ -58,9 +58,9 @@ class ApiServices{
     final parsedUrl = Uri.parse(url);
     final response = await http.get(parsedUrl);
     if(response.statusCode == 200){
-      dev.log('success');
+      dev.log('success for popularMovies');
       print(response.statusCode);
-      // print(response.body);
+      print(response.body);
       return PopularMoviesModel.fromJson(jsonDecode(response.body));
     }else{
       throw Exception('${response.statusCode} ${e.toString()}');
