@@ -10,4 +10,5 @@ class AppUrls{
  static String tvSeriesEndpoint = '/tv/top_rated';
  static String searchQueryEndpoint = '/search/movie';
  static String popularMoviesEndpoint = '/movie/popular';
+ static String MoviesDetailsEndpoint = '/movie/';
 }

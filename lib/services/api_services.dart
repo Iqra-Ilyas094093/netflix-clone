@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:http/http.dart' as http;
+import 'package:netflix_clone/model/movie_details_model.dart';
+import 'package:netflix_clone/model/movie_recommendation_model.dart';
 import 'package:netflix_clone/model/popular_movies_model.dart';
 import 'package:netflix_clone/model/searchModel.dart';
 import 'package:netflix_clone/model/tv_series_model.dart';
@@ -81,6 +83,36 @@ class ApiServices{
       return SearchModel.fromJson(jsonDecode(response.body));
     }else{
       throw Exception('${response.statusCode} ${e.toString()}');
+    }
+  }
+  Future<MovieDetailsModel> movieDetails(int id)async{
+    final url = '${AppUrls.baseUrl}${AppUrls.MoviesDetailsEndpoint}$id${AppUrls.key}';
+    final response = await http.get(Uri.parse(url));
+    print(url);
+    print(response.statusCode);
+    if(response.statusCode == 200){
+      dev.log('success');
+      final data = jsonDecode(response.body);
+      // print(data);
+      print('Response body: ${response.body}');
+      return MovieDetailsModel.fromJson(data);
+    }else{
+      print(response.statusCode);
+      throw Exception(e.toString());
+    }
+  }
+
+  Future<MovieRecommendationsModel> movieRecommendation(int id)async{
+    final url = '${AppUrls.baseUrl}/movie/$id/recommendations${AppUrls.key}';
+    print('url for recommendation api is $url');
+    final response = await http.get(Uri.parse(url));
+    print(response.statusCode);
+    if(response.statusCode == 200){
+      final data = jsonDecode(response.body);
+      print('Response body ${response.body}');
+      return MovieRecommendationsModel.fromJson(data);
+    }else{
+      throw Exception('failed to load data from api for recommendations more like this');
     }
   }
 }

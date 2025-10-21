@@ -4,6 +4,7 @@ import 'package:netflix_clone/model/popular_movies_model.dart';
 import 'package:netflix_clone/model/searchModel.dart';
 import 'package:netflix_clone/services/api_services.dart';
 import 'package:netflix_clone/utils/AppUrl.dart';
+import 'package:netflix_clone/view/screens/movie_details_Screen.dart';
 import 'package:netflix_clone/view/widgets/movie_card_widget.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -120,7 +121,9 @@ class _SearchScreenState extends State<SearchScreen> {
                               return Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MovieDetailsScreen(id: topSearch.id)));
+                                  },
                                   child: Container(
                                     height: 120,
                                     decoration: BoxDecoration(
@@ -163,22 +166,27 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
                 itemCount: search!.results.length,
                 itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      search!.results[index].backdropPath == null
-                          ? Image.asset('assets/netflix.png', height: 140)
-                          : CachedNetworkImage(
-                        imageUrl:
-                        '${AppUrls.imageUrl}${search!.results[index].backdropPath}',
-                        height: 120,
-                      ),
-                      Text(
-                        search!.results[index].originalTitle,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ],
+                  return GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MovieDetailsScreen(id: search!.results[index].id)));
+                    },
+                    child: Column(
+                      children: [
+                        search!.results[index].backdropPath == null
+                            ? Image.asset('assets/netflix.png', height: 140)
+                            : CachedNetworkImage(
+                          imageUrl:
+                          '${AppUrls.imageUrl}${search!.results[index].backdropPath}',
+                          height: 120,
+                        ),
+                        Text(
+                          search!.results[index].originalTitle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
                   );
                 },
               ),
