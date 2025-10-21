@@ -58,7 +58,16 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             FutureBuilder(future: tvSeriesCarousel, builder: (context,snapshot){
-              return CustomCarousel(data: snapshot.data!);
+              if(snapshot.connectionState == ConnectionState.waiting){
+                return Center(child: CircularProgressIndicator(),);
+              }else if(snapshot.hasError){
+                return Text(snapshot.error.toString());
+              }else if(snapshot.hasData){
+                return CustomCarousel(data: snapshot.data!);
+              }else{
+                throw Exception('failed to load data from api');
+              }
+
             }),
             SizedBox(
               height: 220,

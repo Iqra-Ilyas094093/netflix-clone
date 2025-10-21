@@ -56,11 +56,13 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(CupertinoIcons.back, color: Colors.white),
+                      SafeArea(
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(CupertinoIcons.back, color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
@@ -95,7 +97,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
-                        return Center(child: Text(snapshot.error.toString()));
+                        return SizedBox();
                       } else if (snapshot.hasData) {
                         return snapshot.data!.results.isEmpty?SizedBox():Column(
                           children: [
@@ -119,9 +121,16 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                               ),
                               itemCount:snapshot.data!.results.length,
                               itemBuilder: (context, index) {
-                                return CachedNetworkImage(imageUrl: "${AppUrls.imageUrl}${
-                                    snapshot.data!.results[index].backdropPath
-                                }");
+                                return InkWell(
+                                  onTap: (){
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MovieDetailsScreen(id: snapshot.data!.results[index].id)));
+                                  },
+                                  child: SizedBox(
+                                    child: CachedNetworkImage(imageUrl: "${AppUrls.imageUrl}${
+                                        snapshot.data!.results[index].backdropPath
+                                    }",fit: BoxFit.cover,),
+                                  ),
+                                );
                               },
                             ),
                           ],

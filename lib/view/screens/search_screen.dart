@@ -71,10 +71,15 @@ class _SearchScreenState extends State<SearchScreen> {
                     color: Colors.grey.withValues(alpha: 0.3),
                     size: 28,
                   ),
-                  suffixIcon: Icon(
-                    Icons.cancel_outlined,
-                    color: Colors.grey.withValues(alpha: 0.3),
-                    size: 28,
+                  suffixIcon: GestureDetector(
+                    onTap: (){
+                      searchController.clear();
+                    },
+                    child: Icon(
+                      Icons.cancel_outlined,
+                      color: Colors.grey.withValues(alpha: 0.3),
+                      size: 28,
+                    ),
                   ),
                 ),
                 onChanged: (value) {
@@ -131,14 +136,24 @@ class _SearchScreenState extends State<SearchScreen> {
                                     ),
                                     child: Row(
                                       children: [
-                                        Image.network(
-                                          '${AppUrls.imageUrl}${topSearch!.backdropPath}',
-                                          fit: BoxFit.fitHeight,
+                                        SizedBox(
+                                          height: 120,
+                                          width: 100,
+                                          child: Image.network(
+                                            '${AppUrls.imageUrl}${topSearch!.backdropPath}',
+                                            fit: BoxFit.cover,
+
+                                          ),
                                         ),
                                         const SizedBox(width: 20),
-                                        Text(
-                                          topSearch.title,
-                                          style: TextStyle(color: Colors.white),
+                                        Expanded(
+                                          child: SizedBox(
+                                            child: Text(
+                                              topSearch.title,
+                                              style: TextStyle(color: Colors.white,overflow: TextOverflow.ellipsis,),
+                                              softWrap: true,
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -171,19 +186,24 @@ class _SearchScreenState extends State<SearchScreen> {
                       Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MovieDetailsScreen(id: search!.results[index].id)));
                     },
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         search!.results[index].backdropPath == null
-                            ? Image.asset('assets/netflix.png', height: 140)
-                            : CachedNetworkImage(
-                          imageUrl:
-                          '${AppUrls.imageUrl}${search!.results[index].backdropPath}',
-                          height: 120,
-                        ),
+                            ? SizedBox(child: Image.asset('assets/netflix.png', height: 120,fit: BoxFit.cover,))
+                            : SizedBox(
+                              child: CachedNetworkImage(
+                                                        imageUrl:
+                                                        '${AppUrls.imageUrl}${search!.results[index].backdropPath}',
+                                                        height: 120,
+                                fit: BoxFit.cover,
+                                                      ),
+                            ),
                         Text(
                           search!.results[index].originalTitle,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white70,fontSize: 15),
                         ),
                       ],
                     ),
